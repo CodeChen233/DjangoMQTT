@@ -30,19 +30,24 @@ def on_connect(client, userdata, flag, rc):
 # 接收、处理mqtt消息
 def on_message(client, userdata, msg):
     out = msg.payload.decode('utf-8')
-    print("topic:"+msg.topic)
-    print(out)  # string类型
+    # print("topic:"+msg.topic)
+    # print(out)  # string类型
     # out = json.loads(out)
 
     # 收到消息后执行任务
     if msg.topic == 'data/receive':
 
         # 处理model层业务
-        obj = models.MqttData(topic=msg.topic, msg=out)
-        obj.save()
-        print("==>" + out)
-        data = models.MqttData.objects.all
-        print(data)
+        # 增
+        # obj = models.MqttData(topic=msg.topic, msg=out)
+        # obj.save()
+        # print("==>" + out)
+        # 查
+        # data = models.MqttData.objects.all()
+        # print(data)
+        # 改
+        models.MqttData.objects.filter(topic=msg.topic).update(msg=out)
+
 
 # mqtt客户端启动函数
 def mqttfunction():
